@@ -750,30 +750,31 @@
             });
         };
         OAuth2.prototype.exchangeForToken = function (oauthData, userData) {
-            var _this = this;
-            var payload = angular.extend({}, userData);
-            angular.forEach(this.defaults.responseParams, function (value, key) {
-                switch (key) {
-                    case 'code':
-                        payload[value] = oauthData.code;
-                        break;
-                    case 'clientId':
-                        payload[value] = _this.defaults.clientId;
-                        break;
-                    case 'redirectUri':
-                        payload[value] = _this.defaults.redirectUri;
-                        break;
-                    default:
-                        payload[value] = oauthData[key];
-                }
-            });
-            if (oauthData.state) {
-                payload.state = oauthData.state;
+          var data = angular.extend({}, userData);
+
+          angular.forEach(defaults.responseParams, function(value, key) {
+            switch (key) {
+              case 'code':
+                data[value] = oauthData.code;
+                break;
+              case 'clientId':
+                data[value] = defaults.clientId;
+                break;
+              case 'redirectUri':
+                data[value] = defaults.redirectUri;
+                break;
+              default:
+                data[value] = oauthData[key];
             }
-            var exchangeForTokenUrl = this.SatellizerConfig.baseUrl ?
-                joinUrl(this.SatellizerConfig.baseUrl, this.defaults.url) :
-                this.defaults.url;
-            return this.$http.post(exchangeForTokenUrl, payload, { withCredentials: this.SatellizerConfig.withCredentials });
+          });
+
+          if (oauthData.state) {
+            data.state = oauthData.state;
+          }
+
+          var exchangeForTokenUrl = config.baseUrl ? utils.joinUrl(config.baseUrl, defaults.url) : defaults.url;
+
+          return $http.get(exchangeForTokenUrl, {params: data}, { withCredentials: config.withCredentials });
         };
         OAuth2.prototype.buildQueryString = function () {
             var _this = this;
