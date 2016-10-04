@@ -126,7 +126,7 @@ export default class OAuth2 {
       joinUrl(this.SatellizerConfig.baseUrl, this.defaults.url) :
       this.defaults.url;
 
-    return this.$http.post(exchangeForTokenUrl, payload, { withCredentials: this.SatellizerConfig.withCredentials });
+    return this.$http.get(exchangeForTokenUrl, {params: payload}, { withCredentials: this.SatellizerConfig.withCredentials });
   }
 
   buildQueryString(): string {
