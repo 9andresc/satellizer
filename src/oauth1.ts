@@ -87,7 +87,7 @@ export default class OAuth1 implements IOAuth1 {
   exchangeForToken(oauthData, userData): angular.IHttpPromise<any> {
     const payload = angular.extend({}, userData, oauthData);
     const exchangeForTokenUrl = this.SatellizerConfig.baseUrl ? joinUrl(this.SatellizerConfig.baseUrl, this.defaults.url) : this.defaults.url;
-    return this.$http.post(exchangeForTokenUrl, payload, { withCredentials: this.SatellizerConfig.withCredentials });
+    return this.$http.get(exchangeForTokenUrl, {params: payload}, { withCredentials: this.SatellizerConfig.withCredentials });
   }
 
   buildQueryString(obj): string {
